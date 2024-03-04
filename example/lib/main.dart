@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AdaptiveMobilePreview(
-      type: DevicesType.android.onePlus8Pro,
+      type: DevicesType.iOS.iPhoneSE,
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData.light(useMaterial3: true),

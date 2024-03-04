@@ -7,34 +7,37 @@ import 'fake_android_status_bar.dart';
 import 'fake_ios_status_bar.dart';
 import 'navigation_bar.dart';
 
-class AdaptiveMobilePreview extends StatefulWidget {
-  const AdaptiveMobilePreview({
+class PreviewWidget extends StatefulWidget {
+  const PreviewWidget({
     super.key,
     required this.type,
     required this.child,
   });
 
-  final DeviceInfo type;
   final Widget child;
+  final DeviceInfo type;
 
   @override
-  State<AdaptiveMobilePreview> createState() => _AdaptiveMobilePreviewState();
+  State<PreviewWidget> createState() => _PreviewWidgetState();
 }
 
-class _AdaptiveMobilePreviewState extends State<AdaptiveMobilePreview> {
+class _PreviewWidgetState extends State<PreviewWidget> {
   bool useVirtualKeyboard = false;
+  bool isFrameVisible = true;
+
   TextDirection textDirection = TextDirection.rtl;
 
   @override
   void initState() {
+    PreviewWindowManager.initialize(widget.type.screenSize);
     super.initState();
-    AdaptiveMobilePreviewManager.initialize(widget.type.screenSize);
   }
+
+  bool get isAndroid =>
+      widget.type.identifier.platform == TargetPlatform.android;
 
   @override
   Widget build(BuildContext context) {
-    final isAndroid = widget.type.identifier.platform == TargetPlatform.android;
-
     return Directionality(
       textDirection: textDirection,
       child: Row(
@@ -46,23 +49,22 @@ class _AdaptiveMobilePreviewState extends State<AdaptiveMobilePreview> {
               _buildNavigationBar(),
               _buildVirtualKeyboardToggle(),
               _buildDirectionIcon(),
+              _buildFrameVisibility(),
               _buildDragHandleIcon(),
             ],
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: DeviceFrame(
-                device: widget.type,
-                orientation: MediaQuery.orientationOf(context),
-                screen: VirtualKeyboard(
-                  isEnabled: useVirtualKeyboard,
-                  child: Column(
-                    children: [
-                      _buildFakeStatusBar(isAndroid),
-                      Expanded(child: widget.child),
-                    ],
-                  ),
+          Flexible(
+            child: DeviceFrame(
+              device: widget.type,
+              isFrameVisible: isFrameVisible,
+              orientation: MediaQuery.orientationOf(context),
+              screen: VirtualKeyboard(
+                isEnabled: useVirtualKeyboard,
+                child: Column(
+                  children: [
+                    _buildFakeStatusBar(),
+                    Expanded(child: widget.child),
+                  ],
                 ),
               ),
             ),
@@ -128,6 +130,21 @@ class _AdaptiveMobilePreviewState extends State<AdaptiveMobilePreview> {
     );
   }
 
+  Widget _buildFrameVisibility() {
+    return _buildButtonIcon(
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            isFrameVisible = !isFrameVisible;
+          });
+        },
+        child: isFrameVisible
+            ? const Icon(Icons.visibility)
+            : const Icon(Icons.visibility_off),
+      ),
+    );
+  }
+
   Widget _buildButtonIcon({required Widget child}) {
     return SizedBox(
       width: 45,
@@ -142,6 +159,6 @@ class _AdaptiveMobilePreviewState extends State<AdaptiveMobilePreview> {
     );
   }
 
-  Widget _buildFakeStatusBar(bool isAndroid) =>
+  Widget _buildFakeStatusBar() =>
       isAndroid ? const FakeAndroidStatusBar() : const FakeIOSStatusBar();
 }

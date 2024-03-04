@@ -8,7 +8,14 @@ class NavigationBar extends StatefulWidget {
   State<NavigationBar> createState() => _NavigationBarState();
 }
 
-class _NavigationBarState extends State<NavigationBar> {
+class _NavigationBarState extends State<NavigationBar> with WindowListener {
+
+  @override
+  void initState() {
+    windowManager.addListener(this);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -62,5 +69,23 @@ class _NavigationBarState extends State<NavigationBar> {
         ),
       ),
     );
+  }
+
+  @override
+  void onWindowMaximize() {
+    setState(() {});
+    super.onWindowMaximize();
+  }
+
+  @override
+  void onWindowUnmaximize() {
+    setState(() {});
+    super.onWindowUnmaximize();
+  }
+
+  @override
+  void dispose() {
+    windowManager.removeListener(this);
+    super.dispose();
   }
 }
