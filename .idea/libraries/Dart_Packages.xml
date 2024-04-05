@@ -2,6 +2,13 @@
   <library name="Dart Packages" type="DartPackagesLibraryType">
     <properties>
       <option name="packageNameToDirsMap">
+        <entry key="adp_mobile">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../adp_mobile/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="async">
           <value>
             <list>
@@ -237,6 +244,7 @@
       <root url="file://C:/src/flutter/bin/cache/pkg/sky_engine/lib" />
       <root url="file://C:/src/flutter/packages/flutter/lib" />
       <root url="file://C:/src/flutter/packages/flutter_test/lib" />
+      <root url="file://$PROJECT_DIR$/../adp_mobile/lib" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

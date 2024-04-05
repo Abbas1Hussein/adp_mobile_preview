@@ -1,96 +1,102 @@
+import 'package:adp_mobile/adp_mobile.dart';
 import 'package:adp_mobile_preview/adp_mobile_preview.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  DefaultsPlatformManager.initialize(
+    targetPlatform: MobileTargetPlatform.iOS,
+  );
+  runApp(const AdaptiveAppPreview());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class AdaptiveAppPreview extends StatefulWidget {
+  const AdaptiveAppPreview({super.key});
+
+  @override
+  State<AdaptiveAppPreview> createState() => _AdaptiveAppPreviewState();
+}
+
+class _AdaptiveAppPreviewState extends State<AdaptiveAppPreview> {
+  int _currentValue = 0;
 
   @override
   Widget build(BuildContext context) {
     return AdaptiveMobilePreview(
-      type: DevicesType.iOS.iPhoneSE,
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData.light(useMaterial3: true),
-        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      type: adaptiveValue(
+        ios: () => DevicesType.iOS.iPhone13ProMax,
+        android: () => DevicesType.android.samsungGalaxyNote20,
       ),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      child: AdpApp(
+        home: DefaultTabController(
+          length: 2,
+          child: AdaptiveScaffold(
+            appBar: AdaptiveAppBar(
+              /// elevation: PlatformRuining.isAndroid ? 10.0 : 0.0,
+              title: const Text('Adaptive Mobile Preview'),
+              bottom: AdaptiveTabBarPreferred(
+                tabs: const [
+                  AdaptiveTab(
+                    label: Text('star'),
+                    icon: AdaptiveIcon(AdpIcons.starFilled),
+                  ),
+                  AdaptiveTab(
+                    label: Text('favorite'),
+                    icon: AdaptiveIcon.all(Icons.favorite),
+                  ),
+                ],
+              ),
+              actions: [
+                AdaptiveIconButton(
+                  icon: const AdaptiveIcon(AdpIcons.link),
+                  onPressed: () {},
+                ),
+              ],
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            floatingActionButton: Builder(builder: (context) {
+              return FloatingActionButton(
+                onPressed: () {
+                  DialogPresenter.showInformationDialog(
+                    context,
+                    title: DummyText.generateQuestion,
+                    message: DummyText.generateAnswer,
+                  );
+                },
+                child: const AdaptiveIcon(AdpIcons.add),
+              );
+            }),
+            bottomNavigationBar: AdaptiveBottomNavigationBar(
+              currentIndex: _currentValue,
+              onChanged: (value) => setState(() => _currentValue = value),
+              items: const [
+                AdaptiveBottomNavigationBarItem(
+                  icon: AdaptiveIcon(AdpIcons.app),
+                  label: 'app',
+                ),
+                AdaptiveBottomNavigationBarItem(
+                  icon: AdaptiveIcon(AdpIcons.archive),
+                  label: 'archive',
+                )
+              ],
             ),
-          ],
+            body: ListView.builder(
+              itemCount: imageUrls.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Image.network(imageUrls[index]),
+                );
+              },
+            ),
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+  static const List<String> imageUrls = [
+    'https://i.imgur.com/0NEhC8Y.png',
+    'https://i.imgur.com/2KHNJfH.png',
+    'https://i.imgur.com/Cx27FXb.png',
+  ];
 }

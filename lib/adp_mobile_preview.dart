@@ -8,15 +8,11 @@ import 'src/core/init.dart';
 import 'src/preview.dart';
 
 export 'package:device_frame/device_frame.dart' show GenericPhoneFramePainter;
-
 export 'src/core/common/devices.dart';
 
 class AdaptiveMobilePreview extends StatelessWidget {
-  const AdaptiveMobilePreview({
-    super.key,
-    required this.child,
-    required this.type,
-  });
+  const AdaptiveMobilePreview(
+      { super.key, required this.child, required this.type });
 
   /// The child widget to be rendered within the mobile preview [AdpApp].
   final Widget child;
@@ -25,11 +21,12 @@ class AdaptiveMobilePreview extends StatelessWidget {
   ///
   /// For example:
   ///
-  /// ```
+  /// ```dart
   /// AdaptiveMobilePreview(
-  ///   type: PlatformRuining.targetPlatform == MobileTargetPlatform.android
-  ///       ? DevicesType.android.samsungGalaxyA50
-  ///       : DevicesType.iOS.iPhone13Mini,
+  ///   type: adaptiveValue(
+  ///     ios: () => DevicesType.iOS.iPhone13ProMax,
+  ///     android: () => DevicesType.android.samsungGalaxyNote20,
+  ///   ),
   ///   child: AdpApp(),
   /// )
   /// ```
