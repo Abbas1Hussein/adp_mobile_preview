@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 void main() {
   DefaultsPlatformManager.initialize(
-    targetPlatform: MobileTargetPlatform.iOS,
+    targetPlatform: MobileTargetPlatform.android,
   );
   runApp(const AdaptiveAppPreview());
 }
@@ -27,34 +27,43 @@ class _AdaptiveAppPreviewState extends State<AdaptiveAppPreview> {
         android: () => DevicesType.android.samsungGalaxyNote20,
       ),
       child: AdpApp(
+        themeMode: ThemeMode.light,
         home: DefaultTabController(
           length: 2,
-          child: AdaptiveScaffold(
-            appBar: AdaptiveAppBar(
-              /// elevation: PlatformRuining.isAndroid ? 10.0 : 0.0,
-              title: const Text('Adaptive Mobile Preview'),
-              bottom: AdaptiveTabBarPreferred(
-                tabs: const [
-                  AdaptiveTab(
-                    label: Text('star'),
-                    icon: AdaptiveIcon(AdpIcons.starFilled),
-                  ),
-                  AdaptiveTab(
-                    label: Text('favorite'),
-                    icon: AdaptiveIcon.all(Icons.favorite),
+          child: Builder(builder: (context) {
+            return AdaptiveScaffold(
+              appBar: AdaptiveAppBar(
+                /// elevation: PlatformRuining.isAndroid ? 10.0 : 0.0,
+                title: const Text('Adaptive Mobile Preview'),
+                bottom: AdaptiveTabBarPreferred(
+                  tabs: const [
+                    AdaptiveTab(
+                      label: Text('star'),
+                      icon: AdaptiveIcon(AdpIcons.starFilled),
+                    ),
+                    AdaptiveTab(
+                      label: Text('favorite'),
+                      icon: AdaptiveIcon.all(Icons.favorite),
+                    ),
+                  ],
+                ),
+                actions: [
+                  AdaptiveIconButton(
+                    icon: const AdaptiveIcon(AdpIcons.link),
+                    onPressed: () {},
                   ),
                 ],
               ),
-              actions: [
-                AdaptiveIconButton(
-                  icon: const AdaptiveIcon(AdpIcons.link),
-                  onPressed: () {},
+              body: Center(
+                child: Text(
+                  "-- You're welcome --",
+                  style: AdaptiveTypography.of(context)
+                      .subheading
+                      ?.copyWith(color: AdpColors.blue),
                 ),
-              ],
-            ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-            floatingActionButton: Builder(builder: (context) {
-              return FloatingActionButton(
+              ),
+              floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+              floatingActionButton: FloatingActionButton(
                 onPressed: () {
                   DialogPresenter.showInformationDialog(
                     context,
@@ -63,40 +72,25 @@ class _AdaptiveAppPreviewState extends State<AdaptiveAppPreview> {
                   );
                 },
                 child: const AdaptiveIcon(AdpIcons.add),
-              );
-            }),
-            bottomNavigationBar: AdaptiveBottomNavigationBar(
-              currentIndex: _currentValue,
-              onChanged: (value) => setState(() => _currentValue = value),
-              items: const [
-                AdaptiveBottomNavigationBarItem(
-                  icon: AdaptiveIcon(AdpIcons.app),
-                  label: 'app',
-                ),
-                AdaptiveBottomNavigationBarItem(
-                  icon: AdaptiveIcon(AdpIcons.archive),
-                  label: 'archive',
-                )
-              ],
-            ),
-            body: ListView.builder(
-              itemCount: imageUrls.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: Image.network(imageUrls[index]),
-                );
-              },
-            ),
-          ),
+              ),
+              bottomNavigationBar: AdaptiveBottomNavigationBar(
+                currentIndex: _currentValue,
+                onChanged: (value) => setState(() => _currentValue = value),
+                items: const [
+                  AdaptiveBottomNavigationBarItem(
+                    icon: AdaptiveIcon(AdpIcons.app),
+                    label: 'app',
+                  ),
+                  AdaptiveBottomNavigationBarItem(
+                    icon: AdaptiveIcon(AdpIcons.archive),
+                    label: 'archive',
+                  )
+                ],
+              ),
+            );
+          }),
         ),
       ),
     );
   }
-
-  static const List<String> imageUrls = [
-    'https://i.imgur.com/0NEhC8Y.png',
-    'https://i.imgur.com/2KHNJfH.png',
-    'https://i.imgur.com/Cx27FXb.png',
-  ];
 }
