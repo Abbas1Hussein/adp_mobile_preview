@@ -23,7 +23,7 @@ class _AdaptiveAppPreviewState extends State<AdaptiveAppPreview> {
   Widget build(BuildContext context) {
     return AdaptiveMobilePreview(
       type: adaptiveValue(
-        ios: () => DevicesType.iOS.iPhone13ProMax,
+        iOS: () => DevicesType.iOS.iPhone13ProMax,
         android: () => DevicesType.android.samsungGalaxyNote20,
       ),
       child: AdpApp(
