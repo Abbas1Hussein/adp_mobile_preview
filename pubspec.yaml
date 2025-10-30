@@ -1,7 +1,7 @@
 name: adp_mobile_preview
+homepage: https://github.com/Abbas1Hussein/adp_mobile_preview/#/
 description: "A simple tool for previewing the mobile app on desktop as an emulator."
 version: 0.0.1
-homepage:
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
