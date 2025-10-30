@@ -12,12 +12,11 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.6
+  adp_mobile: ^0.0.1
 
   adp_mobile_preview:
     path: ../
 
-  adp_mobile:
-    path: D:\flutter\packages\adp_mobile
 
 dev_dependencies:
   flutter_test:
