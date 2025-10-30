@@ -12,7 +12,7 @@ class FakeIOSStatusBar extends StatelessWidget {
   const FakeIOSStatusBar({
     super.key,
     this.roundedCorners = true,
-    this.height= 15.0,
+    this.height = 15.0,
   });
 
   final double height;
@@ -27,7 +27,8 @@ class FakeIOSStatusBar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Text(
-            '${time.hourOfPeriod}:${time.minute} ${time.period.name}'.toUpperCase(),
+            '${time.hourOfPeriod}:${time.minute} ${time.period.name}'
+                .toUpperCase(),
             style: _uiStyleNotch,
           ),
           Expanded(child: Container()),
@@ -43,4 +44,3 @@ class FakeIOSStatusBar extends StatelessWidget {
     );
   }
 }
-

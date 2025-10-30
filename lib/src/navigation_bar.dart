@@ -9,7 +9,6 @@ class NavigationBar extends StatefulWidget {
 }
 
 class _NavigationBarState extends State<NavigationBar> with WindowListener {
-
   @override
   void initState() {
     windowManager.addListener(this);

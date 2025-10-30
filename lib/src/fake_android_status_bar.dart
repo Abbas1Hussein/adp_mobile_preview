@@ -35,7 +35,8 @@ class FakeAndroidStatusBar extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Text(
-            '${time.hourOfPeriod}:${time.minute} ${time.period.name}'.toUpperCase(),
+            '${time.hourOfPeriod}:${time.minute} ${time.period.name}'
+                .toUpperCase(),
             style: style,
           ),
           const Spacer(),

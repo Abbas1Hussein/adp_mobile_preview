@@ -12,7 +12,7 @@ export 'src/core/common/devices.dart';
 
 class AdaptiveMobilePreview extends StatelessWidget {
   const AdaptiveMobilePreview(
-      { super.key, required this.child, required this.type });
+      {super.key, required this.child, required this.type});
 
   /// The child widget to be rendered within the mobile preview [AdpApp].
   final Widget child;

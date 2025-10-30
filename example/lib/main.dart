@@ -62,7 +62,8 @@ class _AdaptiveAppPreviewState extends State<AdaptiveAppPreview> {
                       ?.copyWith(color: AdpColors.blue),
                 ),
               ),
-              floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerDocked,
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
                   DialogPresenter.showInformationDialog(

@@ -8,7 +8,7 @@ import 'fake_ios_status_bar.dart';
 import 'navigation_bar.dart';
 
 class PreviewWidget extends StatefulWidget {
-  const PreviewWidget({ super.key, required this.type, required this.child });
+  const PreviewWidget({super.key, required this.type, required this.child});
 
   final Widget child;
   final DeviceInfo type;
@@ -141,7 +141,7 @@ class _PreviewWidgetState extends State<PreviewWidget> {
     );
   }
 
-  Widget _buildButtonIcon({ required Widget child }) {
+  Widget _buildButtonIcon({required Widget child}) {
     return SizedBox(
       width: 45,
       height: 50,
